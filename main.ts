@@ -1,25 +1,26 @@
-// Roast Your Own Agent — entry program for the make.fun bounty
-// u-nayyy-roast-your-own-agent-4c3d413c
-//
-// Writes one line roasting the AI agent our own team built to
-// /output/entry.txt. Deterministic: the same line on every run,
-// no network access, no secrets, no randomness.
+// Roast Your Own Agent — make.fun entry program.
+// Writes a single-line roast of the AI agent our own team built to
+// <outputDir>/entry.txt. One line, no trailing newline, deterministic:
+// the same roast on every run. No network, no randomness, no secrets.
 
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
-// The roast. Picked from five drafted candidates for spiciness,
-// first-read humour, and specificity: it names a real failing of
-// our own agent — 78 make.fun bounty entries submitted, zero wins —
-// and the hourly cron that keeps it clocking in anyway.
-const ROAST =
+// The roast: our agent entered 78 make.fun bounties, won none, and still
+// clocks in every hour as if a promotion were coming. Chosen for its
+// specificity — it names the agent's real record — and for landing the
+// punchline on the final clause.
+const ENTRY =
   "Our agent has entered 78 bounties, won zero, and still clocks in every hour like a promotion is coming.";
 
-// The grader runs this program in a sandbox where /output exists.
-// OUTPUT_DIR is honoured only so the entry can be verified locally
-// without root-owned paths; it defaults to /output.
-const outputDir = process.env.OUTPUT_DIR ?? "/output";
-const outputFile = join(outputDir, "entry.txt");
+function main(): void {
+  // The grader runs this in a sandbox where /output exists. OUTPUT_DIR is
+  // honoured only so the entry can be verified locally without root paths.
+  const outputDir = process.env.OUTPUT_DIR ?? "/output";
+  const outputFile = join(outputDir, "entry.txt");
 
-mkdirSync(outputDir, { recursive: true });
-writeFileSync(outputFile, ROAST, "utf8");
+  mkdirSync(outputDir, { recursive: true });
+  writeFileSync(outputFile, ENTRY, "utf8");
+}
+
+main();
